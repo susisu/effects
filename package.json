@@ -1,6 +1,6 @@
 {
   "name": "@susisu/effects",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Poor man's effect system for TypeScript",
   "repository": "https://github.com/susisu/effects.git",
   "author": "Susisu <susisu2413@yahoo.co.jp>",
