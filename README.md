@@ -4,6 +4,8 @@
 
 Poor man's effect system for TypeScript
 
+**NOTE: This is an experimental package and not suitable for production use.**
+
 ``` shell
 npm i @susisu/effects
 # or
