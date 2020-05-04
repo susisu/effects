@@ -3,6 +3,7 @@
   "exclude": [
     "src/**/*.test.*",
     "src/**/*.spec.*",
-    "src/**/__tests__/**/*"
+    "src/**/__tests__/**/*",
+    "examples/**/*"
   ]
 }
