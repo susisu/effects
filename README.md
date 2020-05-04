@@ -107,8 +107,7 @@ effec*ts* provides poor man's effect system for TypeScript.
 The full code of the example in the previous section is the following:
 
 ``` typescript
-import { Proc } from "@susisu/effects";
-import { fail, runTry } from "@susisu/effects/try";
+import { Proc, fail, runTry } from "@susisu/effects";
  
 const parse = (str: string): Proc<"try/fail", number> => perform => {
   const num = parseFloat(str);

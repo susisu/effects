@@ -1,4 +1,4 @@
-import { await, runAsync } from "../src/async"; // "@susisu/effects/async";
+import { await, runAsync } from "../src" /* "@susisu/effects" */;
 
 declare const console: any;
 

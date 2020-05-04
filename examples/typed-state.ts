@@ -1,5 +1,11 @@
-import { Eff, Handlers, Proc, runEff } from "../src" /* "@susisu/effects" */;
-import { CoreEffKind, createCoreHandlers } from "../src/core" /* "@susisu/effects/core" */;
+import {
+  Eff,
+  Handlers,
+  Proc,
+  runEff,
+  CoreEffKind,
+  createCoreHandlers,
+} from "../src" /* "@susisu/effects" */;
 
 type TypedStateEffKind = "typed-state/get" | "typed-state/put";
 

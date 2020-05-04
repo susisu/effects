@@ -1,5 +1,4 @@
-import { Proc } from "../src"; // "@susisu/effects";
-import { fail, runTry } from "../src/try"; // "@susisu/effects/try";
+import { Proc, fail, runTry } from "../src" /* "@susisu/effects" */;
 
 const parse = (str: string): Proc<"try/fail", number> => perform => {
   const num = parseFloat(str);

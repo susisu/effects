@@ -1,5 +1,4 @@
-import { Proc } from "../src"; // "@susisu/effects";
-import { get, put, runState } from "../src/state"; // "@susisu/effects/state";
+import { Proc, get, put, runState } from "../src" /* "@susisu/effects" */;
 
 const update = (f: (x: any) => any): Proc<"state/get" | "state/put", void> => perform => {
   const x = perform(get);
