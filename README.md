@@ -153,10 +153,9 @@ When `perform` is called with an effect for the first time in a procedure, it th
 An effect handler can also stop the procedure by not calling the continuation, and `runEff` exits then.
 
 ## Limitations
-There are some technical limitations:
+There are (currently) some technical limitations:
 
 - The kind of effects are simply string literal types, and can not take type arguments.
-- Effect handlers can call continuations only once in a time.
 
 ## Acknowledgement
 - The idea at the core is very similar to [React Hooks](https://reactjs.org/docs/react-api.html#hooks) and [Suspense](https://reactjs.org/docs/react-api.html#suspense), and is inspired some by them and [this article about algebraic effects](https://overreacted.io/algebraic-effects-for-the-rest-of-us/).
