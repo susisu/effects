@@ -16,31 +16,20 @@ export type Eff<K extends EffKind, A> = K extends unknown
 
 export type Perform<K extends EffKind> = <A>(eff: Eff<K, A> | Proc<K, A>) => A;
 export type Proc<K extends EffKind, T> = (perform: Perform<K>) => T;
-export type Handler<K extends EffKind, U> = <A>(eff: Eff<K, A>, next: (val: A) => U) => U;
+export type Handler<K extends EffKind, U> = <A>(
+  eff: Eff<K, A>,
+  next: (val: A) => U,
+  fork: (val: A) => U
+) => U;
 export type Handlers<K extends EffKind, U> = Readonly<{ [K0 in K]: Handler<K0, U> }>;
 
-/**
- * `runEff` runs procedure that may perform effects.
- * @param proc Procedure to be executed.
- * Note that this function may be executed more than once, and must perform the same effects in the
- * same order every time.
- * In other words, the function must be pure except that it may be interrupted by performing
- * effects.
- * @param cont Continuation that will be called when the procedure finishes.
- * @param handlers Effect handlers that handle effects performed by the procedure.
- * A handler takes two arguments: the performed effect and the continuation.
- */
-export function runEff<K extends EffKind, T, U>(
+function runEff_<K extends EffKind, T, U>(
   proc: Proc<K, T>,
   cont: (val: T) => U,
-  handlers: Handlers<K, U>
+  handlers: Handlers<K, U>,
+  vals: unknown[]
 ): U {
-  const vals: unknown[] = [];
-  const [next, loop] = [
-    (val: unknown): U => {
-      vals.push(val);
-      return loop();
-    },
+  const [loop, next, fork] = [
     (): U => {
       const key = Symbol();
       try {
@@ -65,11 +54,37 @@ export function runEff<K extends EffKind, T, U>(
         }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const eff = err.eff as Eff<K, unknown>;
-        return handlers[eff.kind as K](eff, next);
+        return handlers[eff.kind as K](eff, next, fork);
       }
+    },
+    (val: unknown): U => {
+      vals.push(val);
+      return loop();
+    },
+    (val: unknown): U => {
+      return runEff_(proc, cont, handlers, vals.concat([val]));
     },
   ];
   return loop();
+}
+
+/**
+ * `runEff` runs procedure that may perform effects.
+ * @param proc Procedure to be executed.
+ * Note that this function may be executed more than once, and must perform the same effects in the
+ * same order every time.
+ * In other words, the function must be pure except that it may be interrupted by performing
+ * effects.
+ * @param cont Continuation that will be called when the procedure finishes.
+ * @param handlers Effect handlers that handle effects performed by the procedure.
+ * A handler takes two arguments: the performed effect and the continuation.
+ */
+export function runEff<K extends EffKind, T, U>(
+  proc: Proc<K, T>,
+  cont: (val: T) => U,
+  handlers: Handlers<K, U>
+): U {
+  return runEff_(proc, cont, handlers, []);
 }
 
 export type CoreEffKind = "core/compute";
