@@ -85,7 +85,7 @@ await writeFile("file3.txt", x + y);
 
 But async/await is only for Promises, and any other monads cannot enjoy this.
 
-effec*ts* tries to address this issue, allows you to write the logic in a type-safe way, using some dirty tricks.
+effec*ts* tries to address this issue by providing an "alternative" to generators along with a framework of effect system, allows you to write your logic in a flat and type-safe way.
 
 ``` typescript
 const r1 = runTry(perform => {
@@ -143,7 +143,7 @@ const r2 = runTry(perform => {
 
 You can find more examples in the `examples/` directory.
 
-## How it works?
+## How does it work?
 Why generators (coroutines) can be used to flatten monadic codes is that, they can be paused and resumed, that is, continuations at any point of function can be obtained.
 
 So how we can obtain continuations at any point of a usual function? The answer is, we cannot, but we don't need. The key idea is that a function should perform completely the same when called multiple times if it is pure.
