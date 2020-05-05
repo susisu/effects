@@ -18,7 +18,7 @@ Imagine translating "Either" monad in Haskell or Scala into TypeScript, for exam
 In TypeScript, there is no do- or for-comprehension available in Haskell and Scala, so basically you need to write callbacks (continuations) explicitly to write monadic programs.
 
 ``` typescript
-const parse = (str: string): Either<number> => {
+const parse = (str: string): Either<Error, number> => {
   const num = parseFloat(str);
   if (Number.isNaN(num)) {
     return left(new Error(`failed to parse: ${str}`));
@@ -26,7 +26,7 @@ const parse = (str: string): Either<number> => {
   return right(num);
 };
 
-const divide = (x: number, y: number): Either<number> => {
+const divide = (x: number, y: number): Either<Error, number> => {
   if (y === 0) {
     return left(new Error("division by zero"));
   }
@@ -45,7 +45,7 @@ const r2 = parse("42").bind(x =>
     divide(x, y)
   )
 );
-// r2 = Left(Error("divide by zero"))
+// r2 = Left(Error("division by zero"))
 ```
 
 This is relatively simple example and you may not feel it is bad, but when the code becomes larger and more complex, the *callback hell* emerges.
