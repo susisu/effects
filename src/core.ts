@@ -77,7 +77,11 @@ function runEff_<K extends EffKind, T, U>(
  * effects.
  * @param ret Handler that handles values returned by the action.
  * @param handlers Handlers that handle effects performed by the action.
- * A handler takes two arguments: the performed effect and the continuation.
+ * A handler takes three arguments:
+ * - Effect that is performed by the action
+ * - Resume function that resumes the action. This function can be called only once.
+ * - Fork function that also resumes the action, but can be called multiple times, in exchange for
+ *   performance. Either resume or fork can be used in a handler.
  */
 export function runEff<K extends EffKind, T, U>(
   action: Action<K, T>,
