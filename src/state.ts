@@ -36,10 +36,10 @@ export type State = { current: any };
 
 export const createStateHandlers = <U>(state: State): Handlers<StateEffKind, U> => {
   return {
-    "state/get": (eff, next) => next(eff.t(state.current)),
-    "state/put": (eff, next) => {
+    "state/get": (eff, resume) => resume(eff.t(state.current)),
+    "state/put": (eff, resume) => {
       state.current = eff.val;
-      return next(eff.t(undefined));
+      return resume(eff.t(undefined));
     },
   };
 };

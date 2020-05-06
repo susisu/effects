@@ -18,7 +18,7 @@ export type Perform<K extends EffKind> = <A>(eff: Eff<K, A> | Action<K, A>) => A
 export type Action<K extends EffKind, T> = (perform: Perform<K>) => T;
 export type Handler<K extends EffKind, U> = <A>(
   eff: Eff<K, A>,
-  next: (val: A) => U,
+  resume: (val: A) => U,
   fork: (val: A) => U
 ) => U;
 export type Handlers<K extends EffKind, U> = Readonly<{ [K0 in K]: Handler<K0, U> }>;
@@ -29,7 +29,7 @@ function runEff_<K extends EffKind, T, U>(
   handlers: Handlers<K, U>,
   vals: unknown[]
 ): U {
-  const [loop, next, fork] = [
+  const [loop, resume, fork] = [
     (): U => {
       const key = Symbol();
       try {
@@ -54,7 +54,7 @@ function runEff_<K extends EffKind, T, U>(
         }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const eff = err.eff as Eff<K, unknown>;
-        return handlers[eff.kind as K](eff, next, fork);
+        return handlers[eff.kind as K](eff, resume, fork);
       }
     },
     (val: unknown): U => {
@@ -105,5 +105,5 @@ export const compute = <A>(func: () => A): Eff<"core/compute", A> => ({
 });
 
 export const createCoreHandlers = <U>(): Handlers<CoreEffKind, U> => ({
-  "core/compute": (eff, next) => next(eff.func.call(undefined)),
+  "core/compute": (eff, resume) => resume(eff.func.call(undefined)),
 });

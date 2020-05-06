@@ -18,7 +18,7 @@ export const await = <A>(promise: Promise<A>): Eff<"async/await", A> => ({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createAsyncHandlers = (reject: (err: any) => void): Handlers<AsyncEffKind, void> => ({
-  "async/await": (eff, next) => eff.promise.then(next, reject),
+  "async/await": (eff, resume) => eff.promise.then(resume, reject),
 });
 
 /**
