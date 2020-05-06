@@ -1,6 +1,6 @@
-import { Proc, get, put, runState } from "../src" /* "@susisu/effects" */;
+import { Action, get, put, runState } from "../src" /* "@susisu/effects" */;
 
-const update = (f: (x: any) => any): Proc<"state/get" | "state/put", void> => perform => {
+const update = (f: (x: any) => any): Action<"state/get" | "state/put", void> => perform => {
   const x = perform(get);
   perform(put(f(x)));
 };

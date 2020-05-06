@@ -1,4 +1,4 @@
-import { Eff, Proc, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
+import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
 
 export type TryEffKind = "try/fail";
 
@@ -33,13 +33,13 @@ export const Err = (err: any): Err => ({ isErr: true, err });
 export const Ok = <T>(val: T): Ok<T> => ({ isErr: false, val });
 
 /**
- * `runTry` runs a procedure that may fail.
- * @param proc Procedure to be executed.
+ * `runTry` runs an action that may fail.
+ * @param action Action to be executed.
  */
-export function runTry<T>(proc: Proc<CoreEffKind | TryEffKind, T>): Result<T> {
+export function runTry<T>(action: Action<CoreEffKind | TryEffKind, T>): Result<T> {
   const coreHandlers = createCoreHandlers<Result<T>>();
   const tryHandlers = createTryHandlers<Result<T>>(Err);
-  return runEff(proc, Ok, {
+  return runEff(action, Ok, {
     ...coreHandlers,
     ...tryHandlers,
   });

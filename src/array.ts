@@ -1,4 +1,4 @@
-import { Eff, Proc, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
+import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
 
 export type ArrayEffKind = "array/split";
 
@@ -30,10 +30,10 @@ export const arrayMonoid = <T>(): Monoid<T[]> => ({
   append: (x, y) => x.concat(y),
 });
 
-export function runArray<T>(proc: Proc<CoreEffKind | ArrayEffKind, T>): T[] {
+export function runArray<T>(action: Action<CoreEffKind | ArrayEffKind, T>): T[] {
   const coreHandlers = createCoreHandlers<T[]>();
   const arrayHandlers = createArrayHandlers(arrayMonoid<T>());
-  return runEff(proc, x => [x], {
+  return runEff(action, x => [x], {
     ...coreHandlers,
     ...arrayHandlers,
   });

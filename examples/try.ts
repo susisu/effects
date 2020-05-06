@@ -1,6 +1,6 @@
-import { Proc, fail, runTry } from "../src" /* "@susisu/effects" */;
+import { Action, fail, runTry } from "../src" /* "@susisu/effects" */;
 
-const parse = (str: string): Proc<"try/fail", number> => perform => {
+const parse = (str: string): Action<"try/fail", number> => perform => {
   const num = parseFloat(str);
   if (Number.isNaN(num)) {
     return perform(fail(new Error(`failed to parse: ${str}`)));
@@ -8,7 +8,7 @@ const parse = (str: string): Proc<"try/fail", number> => perform => {
   return num;
 };
 
-const divide = (x: number, y: number): Proc<"try/fail", number> => perform => {
+const divide = (x: number, y: number): Action<"try/fail", number> => perform => {
   if (y === 0) {
     return perform(fail(new Error("division by zero")));
   }

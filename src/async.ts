@@ -1,4 +1,4 @@
-import { Eff, Proc, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
+import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
 
 export type AsyncEffKind = "async/await";
 
@@ -22,14 +22,14 @@ export const createAsyncHandlers = (reject: (err: any) => void): Handlers<AsyncE
 });
 
 /**
- * `runAsync` runs an asyncrhoous procedure.
- * @param proc Procedure to be executed.
+ * `runAsync` runs an asyncrhoous action.
+ * @param action Action to be executed.
  */
-export function runAsync<T>(proc: Proc<CoreEffKind | AsyncEffKind, T>): Promise<T> {
+export function runAsync<T>(action: Action<CoreEffKind | AsyncEffKind, T>): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const coreHandlers = createCoreHandlers<void>();
     const asyncHandlers = createAsyncHandlers(reject);
-    return runEff(proc, resolve, {
+    return runEff(action, resolve, {
       ...coreHandlers,
       ...asyncHandlers,
     });

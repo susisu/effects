@@ -1,4 +1,4 @@
-import { Eff, Proc, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
+import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
 
 export type StateEffKind = "state/get" | "state/put";
 
@@ -45,19 +45,19 @@ export const createStateHandlers = <U>(state: State): Handlers<StateEffKind, U> 
 };
 
 /**
- * `runState` runs a procedure with a state.
+ * `runState` runs an action with a state.
  * @param init Initial state.
- * @param proc Procedure to be executed.
+ * @param action Action to be executed.
  */
 export function runState<T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   init: any,
-  proc: Proc<CoreEffKind | StateEffKind, T>
+  action: Action<CoreEffKind | StateEffKind, T>
 ): T {
   const state = { current: init };
   const coreHandlers = createCoreHandlers<T>();
   const stateHandlers = createStateHandlers<T>(state);
-  return runEff(proc, x => x, {
+  return runEff(action, x => x, {
     ...coreHandlers,
     ...stateHandlers,
   });

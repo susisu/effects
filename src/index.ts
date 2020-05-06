@@ -3,7 +3,7 @@ export {
   EffKind,
   Eff,
   Perform,
-  Proc,
+  Action,
   Handler,
   Handlers,
   runEff,

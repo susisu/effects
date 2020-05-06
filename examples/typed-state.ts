@@ -1,7 +1,7 @@
 import {
   Eff,
   Handlers,
-  Proc,
+  Action,
   runEff,
   CoreEffKind,
   createCoreHandlers,
@@ -41,11 +41,11 @@ export const createStateHandlers = <U>(state: TypedState): Handlers<TypedStateEf
   };
 };
 
-export function runTypedState<T>(init: S, proc: Proc<CoreEffKind | TypedStateEffKind, T>): T {
+export function runTypedState<T>(init: S, action: Action<CoreEffKind | TypedStateEffKind, T>): T {
   const state = { current: init };
   const coreHandlers = createCoreHandlers<T>();
   const stateHandlers = createStateHandlers<T>(state);
-  return runEff(proc, x => x, {
+  return runEff(action, x => x, {
     ...coreHandlers,
     ...stateHandlers,
   });
