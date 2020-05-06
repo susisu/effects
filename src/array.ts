@@ -8,6 +8,9 @@ declare module "./core" {
   }
 }
 
+/**
+ * `array/split` is an effect that splits the current execution.
+ */
 export const split = <A>(arr: readonly A[]): Eff<"array/split", A> => ({
   kind: "array/split",
   arr,
@@ -30,6 +33,10 @@ export const arrayMonoid = <T>(): Monoid<T[]> => ({
   append: (x, y) => x.concat(y),
 });
 
+/**
+ * `runArray` runs an action whose execution can be splitted.
+ * @param action Action to be executed.
+ */
 export function runArray<T>(action: Action<CoreEffKind | ArrayEffKind, T>): T[] {
   const coreHandlers = createCoreHandlers<T[]>();
   const arrayHandlers = createArrayHandlers(arrayMonoid<T>());
