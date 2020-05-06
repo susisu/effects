@@ -1,4 +1,5 @@
 import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
+import { Monoid } from "./types";
 
 export type ArrayEffKind = "array/split";
 
@@ -15,11 +16,6 @@ export const split = <A>(arr: readonly A[]): Eff<"array/split", A> => ({
   kind: "array/split",
   arr,
 });
-
-export type Monoid<T> = Readonly<{
-  empty: () => T;
-  append: (x: T, y: T) => T;
-}>;
 
 export const createArrayHandlers = <U>(m: Monoid<U>): Handlers<ArrayEffKind, U> => {
   return {

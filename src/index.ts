@@ -12,6 +12,7 @@ export {
   createCoreHandlers,
 } from "./core";
 export { StateEffKind, get, put, State, createStateHandlers, runState } from "./state";
-export { TryEffKind, fail, createTryHandlers, Result, Err, Ok, runTry } from "./try";
+export { TryEffKind, fail, createTryHandlers, runTry } from "./try";
 export { AsyncEffKind, await, createAsyncHandlers, runAsync } from "./async";
-export { ArrayEffKind, split, Monoid, createArrayHandlers, arrayMonoid, runArray } from "./array";
+export { ArrayEffKind, split, createArrayHandlers, arrayMonoid, runArray } from "./array";
+export { Result, Err, Ok, Monoid } from "./types";

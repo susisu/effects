@@ -1,4 +1,5 @@
 import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
+import { Result, Ok, Err } from "./types";
 
 export type TryEffKind = "try/fail";
 
@@ -22,15 +23,6 @@ export const fail = (err: any): Eff<"try/fail", never> => ({
 export const createTryHandlers = <U>(reject: (err: any) => U): Handlers<TryEffKind, U> => ({
   "try/fail": eff => reject(eff.err),
 });
-
-export type Result<T> = Err | Ok<T>;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Err = Readonly<{ isErr: true; err: any }>;
-export type Ok<T> = Readonly<{ isErr: false; val: T }>;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Err = (err: any): Err => ({ isErr: true, err });
-export const Ok = <T>(val: T): Ok<T> => ({ isErr: false, val });
 
 /**
  * `runTry` runs an action that may fail.
