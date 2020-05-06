@@ -1,9 +1,23 @@
 import { Action, CoreEffKind, compute } from "./core";
-import { CtrlEffKind, runCtrl, split } from "./ctrl";
+import { CtrlEffKind, runCtrl, abort, split } from "./ctrl";
 
 describe("ctrl", () => {
   describe("runCtrl", () => {
-    it("should run an action that can split", () => {
+    it("should run an action that can be aborted", () => {
+      const f = jest.fn();
+      const g = jest.fn();
+      const action: Action<CtrlEffKind | CoreEffKind, void> = perform => {
+        perform(compute(f));
+        perform(abort);
+        perform(compute(g));
+      };
+      const res = runCtrl(action);
+      expect(res).toEqual([]);
+      expect(f).toHaveBeenCalledTimes(1);
+      expect(g).toHaveBeenCalledTimes(0);
+    });
+
+    it("should run an action that can be splitted", () => {
       const f = jest.fn();
       const g = jest.fn();
       const action1: Action<CtrlEffKind | CoreEffKind, number> = perform => {
