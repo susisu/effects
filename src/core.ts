@@ -25,7 +25,7 @@ export type Handlers<K extends EffKind, U> = Readonly<{ [K0 in K]: Handler<K0, U
 
 function runEff_<K extends EffKind, T, U>(
   action: Action<K, T>,
-  cont: (val: T) => U,
+  ret: (val: T) => U,
   handlers: Handlers<K, U>,
   vals: unknown[]
 ): U {
@@ -46,7 +46,7 @@ function runEff_<K extends EffKind, T, U>(
           // eslint-disable-next-line @typescript-eslint/no-throw-literal
           throw { key, eff };
         };
-        return cont(action(perform));
+        return ret(action(perform));
       } catch (err) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (!err || err.key !== key) {
@@ -62,7 +62,7 @@ function runEff_<K extends EffKind, T, U>(
       return loop();
     },
     (val: unknown): U => {
-      return runEff_(action, cont, handlers, vals.concat([val]));
+      return runEff_(action, ret, handlers, vals.concat([val]));
     },
   ];
   return loop();
@@ -75,16 +75,16 @@ function runEff_<K extends EffKind, T, U>(
  * same order every time.
  * In other words, the function must be pure except that it may be interrupted by performing
  * effects.
- * @param cont Continuation that will be called when the action finishes.
- * @param handlers Effect handlers that handle effects performed by the action.
+ * @param ret Handler that handles values returned by the action.
+ * @param handlers Handlers that handle effects performed by the action.
  * A handler takes two arguments: the performed effect and the continuation.
  */
 export function runEff<K extends EffKind, T, U>(
   action: Action<K, T>,
-  cont: (val: T) => U,
+  ret: (val: T) => U,
   handlers: Handlers<K, U>
 ): U {
-  return runEff_(action, cont, handlers, []);
+  return runEff_(action, ret, handlers, []);
 }
 
 export type CoreEffKind = "core/compute";
