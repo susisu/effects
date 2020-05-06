@@ -1,7 +1,7 @@
 {
   "name": "@susisu/effects",
-  "version": "0.2.0",
-  "description": "Poor man's effect system for TypeScript",
+  "version": "0.3.0",
+  "description": "Poor man's algebraic effects for TypeScript",
   "repository": "https://github.com/susisu/effects.git",
   "author": "Susisu <susisu2413@yahoo.co.jp>",
   "license": "MIT",
