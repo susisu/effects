@@ -5,8 +5,10 @@ describe("state", () => {
   describe("runState", () => {
     it("should run an action that gets / puts the state", () => {
       const action: Action<StateEffKind, number> = perform => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const x: number = perform(get);
         perform(put(x * 2));
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const y: number = perform(get);
         return y;
       };

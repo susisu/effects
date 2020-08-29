@@ -24,9 +24,10 @@ export const get: Eff<"state/get", any> = {
 /**
  * `state/put` is an effect that puts a value to the state.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export const put = (val: any): Eff<"state/put", undefined> => ({
   kind: "state/put",
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   val,
   t: x => x,
 });
@@ -38,6 +39,7 @@ export const createStateHandlers = <U>(state: State): Handlers<StateEffKind, U> 
   return {
     "state/get": (eff, resume) => resume(eff.t(state.current)),
     "state/put": (eff, resume) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       state.current = eff.val;
       return resume(eff.t(undefined));
     },
@@ -50,10 +52,11 @@ export const createStateHandlers = <U>(state: State): Handlers<StateEffKind, U> 
  * @param action Action to be executed.
  */
 export function runState<T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
   init: any,
   action: Action<CoreEffKind | StateEffKind, T>
 ): T {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const state = { current: init };
   const coreHandlers = createCoreHandlers<T>();
   const stateHandlers = createStateHandlers<T>(state);

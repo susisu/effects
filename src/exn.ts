@@ -13,9 +13,10 @@ declare module "./core" {
 /**
  * `exn/raise` is an effect that raises an exception.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export const raise = (exn: any): Eff<"exn/raise", never> => ({
   kind: "exn/raise",
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   exn,
 });
 
