@@ -1,10 +1,10 @@
-import { await, runAsync } from "../src" /* "@susisu/effects" */;
+import { wait, runAsync } from "../src" /* "@susisu/effects" */;
 
 declare const console: any;
 
 const r = runAsync(perform => {
-  const x = perform(await(Promise.resolve(6)));
-  const y = perform(await(Promise.resolve(7)));
+  const x = perform(wait(Promise.resolve(6)));
+  const y = perform(wait(Promise.resolve(7)));
   return `The answer is ${x * y}.`;
 });
 

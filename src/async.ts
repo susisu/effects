@@ -1,24 +1,24 @@
 import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
 
-export type AsyncEffKind = "async/await";
+export type AsyncEffKind = "async/wait";
 
 declare module "./core" {
   interface Effect<A> {
-    "async/await": Readonly<{ promise: Promise<A> }>;
+    "async/wait": Readonly<{ promise: Promise<A> }>;
   }
 }
 
 /**
- * `async/await` is an effect that awaits promise to be fulfilled.
+ * `async/wait` is an effect that awaits promise to be fulfilled.
  */
-export const await = <A>(promise: Promise<A>): Eff<"async/await", A> => ({
-  kind: "async/await",
+export const wait = <A>(promise: Promise<A>): Eff<"async/wait", A> => ({
+  kind: "async/wait",
   promise,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createAsyncHandlers = (reject: (err: any) => void): Handlers<AsyncEffKind, void> => ({
-  "async/await": (eff, resume) => eff.promise.then(resume, reject),
+  "async/wait": (eff, resume) => eff.promise.then(resume, reject),
 });
 
 /**
