@@ -1,3 +1,7 @@
+## 0.4.0 (2020-08-29)
+### Breaking changes
+- Rename `await` to `waitFor`, because `await` is a reserved word ("top-level await") now
+
 ## 0.3.0 (2020-05-06)
 ### Breaking changes
 - Rename `Proc` to `Action`
