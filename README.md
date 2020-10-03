@@ -75,6 +75,8 @@ There was a library named [co](https://www.npmjs.com/package/co) that does the s
 
 However, the solution using generators can not be typed well. In the above example, all of `x`, `y`, and `q` are of type `any` unless you write type annotations explicitly.
 
+**UPDATE:** @nythrox told me that there can be [a type safe version of `_do`](https://github.com/nythrox/purifree#do-notation) using `yield*` and some trick.
+
 Fortunately, async/await are typed well, because it is a built-in feature of the language.
 
 ``` typescript
@@ -157,7 +159,7 @@ There are (currently) some technical limitations:
 
 - The kind of effects are simply string literal types, and can not take type arguments.
 
-## Acknowledgement
+## References
 - The idea at the core is very similar to [React Hooks](https://reactjs.org/docs/react-api.html#hooks) and [Suspense](https://reactjs.org/docs/react-api.html#suspense), and is inspired some by them and [this article about algebraic effects](https://overreacted.io/algebraic-effects-for-the-rest-of-us/).
 - I also borrowed the idea from [fp-ts](https://github.com/gcanti/fp-ts) to define effect as a higher-kinded type using `interface`.
 
