@@ -1,6 +1,6 @@
 # effec*ts*
 
-[![Build Status](https://travis-ci.com/susisu/effects.svg?branch=master)](https://travis-ci.com/susisu/effects)
+[![CI](https://github.com/susisu/effects/workflows/CI/badge.svg)](https://github.com/susisu/effects/actions?query=workflow%3ACI)
 
 Poor man's algebraic effects for TypeScript
 
