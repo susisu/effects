@@ -1,19 +1,23 @@
 import { Action, raise, runExn } from "../src" /* "@susisu/effects" */;
 
-const parse = (str: string): Action<"exn/raise", number> => perform => {
-  const num = parseFloat(str);
-  if (Number.isNaN(num)) {
-    return perform(raise(new Error(`failed to parse: ${str}`)));
-  }
-  return num;
-};
+const parse =
+  (str: string): Action<"exn/raise", number> =>
+  perform => {
+    const num = parseFloat(str);
+    if (Number.isNaN(num)) {
+      return perform(raise(new Error(`failed to parse: ${str}`)));
+    }
+    return num;
+  };
 
-const divide = (x: number, y: number): Action<"exn/raise", number> => perform => {
-  if (y === 0) {
-    return perform(raise(new Error("division by zero")));
-  }
-  return x / y;
-};
+const divide =
+  (x: number, y: number): Action<"exn/raise", number> =>
+  perform => {
+    if (y === 0) {
+      return perform(raise(new Error("division by zero")));
+    }
+    return x / y;
+  };
 
 declare const console: any;
 

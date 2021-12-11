@@ -31,15 +31,13 @@ export const put = (val: S): Eff<"typed-state/put", undefined> => ({
 
 export type TypedState = { current: S };
 
-export const createStateHandlers = <U>(state: TypedState): Handlers<TypedStateEffKind, U> => {
-  return {
-    "typed-state/get": (eff, resume) => resume(eff.t(state.current)),
-    "typed-state/put": (eff, resume) => {
-      state.current = eff.val;
-      return resume(eff.t(undefined));
-    },
-  };
-};
+export const createStateHandlers = <U>(state: TypedState): Handlers<TypedStateEffKind, U> => ({
+  "typed-state/get": (eff, resume) => resume(eff.t(state.current)),
+  "typed-state/put": (eff, resume) => {
+    state.current = eff.val;
+    return resume(eff.t(undefined));
+  },
+});
 
 export function runTypedState<T>(init: S, action: Action<CoreEffKind | TypedStateEffKind, T>): T {
   const state = { current: init };
