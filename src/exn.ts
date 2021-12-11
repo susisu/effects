@@ -1,9 +1,10 @@
 import { Eff, Action, Handlers, CoreEffKind, createCoreHandlers, runEff } from "./core";
-import { Result, Ok, Err } from "./types";
+import { Result, newOk, newErr } from "./types";
 
 export type ExnEffKind = "exn/raise";
 
 declare module "./core" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Effect<A> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     "exn/raise": Readonly<{ exn: any }>;
@@ -31,8 +32,8 @@ export const createExnHandlers = <U>(reject: (exn: any) => U): Handlers<ExnEffKi
  */
 export function runExn<T>(action: Action<CoreEffKind | ExnEffKind, T>): Result<T> {
   const coreHandlers = createCoreHandlers<Result<T>>();
-  const exnHandlers = createExnHandlers<Result<T>>(Err);
-  return runEff(action, Ok, {
+  const exnHandlers = createExnHandlers<Result<T>>(newErr);
+  return runEff(action, newOk, {
     ...coreHandlers,
     ...exnHandlers,
   });

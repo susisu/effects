@@ -26,13 +26,10 @@ export const split = <A>(arr: readonly A[]): Eff<"ctrl/split", A> => ({
   arr,
 });
 
-export const createCtrlHandlers = <U>(m: Monoid<U>): Handlers<CtrlEffKind, U> => {
-  return {
-    "ctrl/abort": () => m.empty(),
-    "ctrl/split": (eff, _, fork) =>
-      eff.arr.map(fork).reduce((xs, ys) => m.append(xs, ys), m.empty()),
-  };
-};
+export const createCtrlHandlers = <U>(m: Monoid<U>): Handlers<CtrlEffKind, U> => ({
+  "ctrl/abort": () => m.empty(),
+  "ctrl/split": (eff, _, fork) => eff.arr.map(fork).reduce((xs, ys) => m.append(xs, ys), m.empty()),
+});
 
 export const arrayMonoid = <T>(): Monoid<T[]> => ({
   empty: () => [],

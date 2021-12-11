@@ -29,7 +29,7 @@ export function runAsync<T>(action: Action<CoreEffKind | AsyncEffKind, T>): Prom
   return new Promise<T>((resolve, reject) => {
     const coreHandlers = createCoreHandlers<void>();
     const asyncHandlers = createAsyncHandlers(reject);
-    return runEff(action, resolve, {
+    runEff(action, resolve, {
       ...coreHandlers,
       ...asyncHandlers,
     });

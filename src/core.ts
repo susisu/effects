@@ -8,6 +8,7 @@
  *
  * Interfaces are "open" in TypeScript, and thus can be extended to define new effect kinds.
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface Effect<A> {}
 export type EffKind = keyof Effect<unknown>;
 export type Eff<K extends EffKind, A> = K extends unknown
@@ -22,6 +23,16 @@ export type Handler<K extends EffKind, U> = <A>(
   fork: (val: A) => U
 ) => U;
 export type Handlers<K extends EffKind, U> = Readonly<{ [K0 in K]: Handler<K0, U> }>;
+
+type Yield<K extends EffKind, A> = Readonly<{ key: symbol; eff: Eff<K, A> }>;
+
+function isYeid<K extends EffKind>(obj: unknown, key: symbol): obj is Yield<K, unknown> {
+  if (!obj || typeof obj !== "object") {
+    return false;
+  }
+  const o = obj as Readonly<{ key?: unknown }>;
+  return o.key === key;
+}
 
 function runEff_<K extends EffKind, T, U>(
   action: Action<K, T>,
@@ -43,17 +54,16 @@ function runEff_<K extends EffKind, T, U>(
             i += 1;
             return val;
           }
+          const y: Yield<K, A> = { key, eff };
           // eslint-disable-next-line @typescript-eslint/no-throw-literal
-          throw { key, eff };
+          throw y;
         };
         return ret(action(perform));
-      } catch (err) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (!err || err.key !== key) {
+      } catch (err: unknown) {
+        if (!isYeid<K>(err, key)) {
           throw err;
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const eff = err.eff as Eff<K, unknown>;
+        const eff = err.eff;
         return handlers[eff.kind as K](eff, resume, fork);
       }
     },
@@ -61,9 +71,7 @@ function runEff_<K extends EffKind, T, U>(
       vals.push(val);
       return loop();
     },
-    (val: unknown): U => {
-      return runEff_(action, ret, handlers, vals.concat([val]));
-    },
+    (val: unknown): U => runEff_(action, ret, handlers, vals.concat([val])),
   ];
   return loop();
 }

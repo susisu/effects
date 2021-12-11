@@ -15,4 +15,4 @@ export { StateEffKind, get, put, State, createStateHandlers, runState } from "./
 export { ExnEffKind, raise, createExnHandlers, runExn } from "./exn";
 export { AsyncEffKind, waitFor, createAsyncHandlers, runAsync } from "./async";
 export { CtrlEffKind, abort, split, createCtrlHandlers, arrayMonoid, runCtrl } from "./ctrl";
-export { Result, Err, Ok, Monoid } from "./types";
+export { Result, newErr, newOk, Monoid } from "./types";

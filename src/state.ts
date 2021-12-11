@@ -35,16 +35,14 @@ export const put = (val: any): Eff<"state/put", undefined> => ({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type State = { current: any };
 
-export const createStateHandlers = <U>(state: State): Handlers<StateEffKind, U> => {
-  return {
-    "state/get": (eff, resume) => resume(eff.t(state.current)),
-    "state/put": (eff, resume) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      state.current = eff.val;
-      return resume(eff.t(undefined));
-    },
-  };
-};
+export const createStateHandlers = <U>(state: State): Handlers<StateEffKind, U> => ({
+  "state/get": (eff, resume) => resume(eff.t(state.current)),
+  "state/put": (eff, resume) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    state.current = eff.val;
+    return resume(eff.t(undefined));
+  },
+});
 
 /**
  * `runState` runs an action with a state.
