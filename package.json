@@ -20,18 +20,18 @@
     "prepublishOnly": "run-s clean lint test build"
   },
   "devDependencies": {
-    "@susisu/eslint-config": "^0.0.26",
-    "@types/jest": "^26.0.10",
-    "eslint": "^7.7.0",
-    "eslint-config-prettier": "^6.11.0",
+    "@susisu/eslint-config": "^0.0.42",
+    "@types/jest": "^27.0.3",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-jest-formatting": "^2.0.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.4.2",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.4.4",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.1",
-    "ts-jest": "^26.3.0",
-    "typescript": "^4.0.2"
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.1",
+    "typescript": "^4.5.3"
   }
 }
