@@ -7,9 +7,8 @@ module.exports = {
       files: ["*.{ts,tsx}"],
       extends: [
         "@susisu/eslint-config/preset/ts-types",
-        "prettier",
         "plugin:eslint-comments/recommended",
-        "prettier/@typescript-eslint",
+        "prettier",
       ],
       parserOptions: {
         ecmaVersion: 2019,
@@ -20,7 +19,6 @@ module.exports = {
         es6: true,
       },
       rules: {
-        "prettier/prettier": "error",
         "eslint-comments/no-unused-disable": "error",
       },
     },
@@ -35,8 +33,8 @@ module.exports = {
       files: ["*.js"],
       extends: [
         "@susisu/eslint-config/preset/es",
-        "prettier",
         "plugin:eslint-comments/recommended",
+        "prettier",
       ],
       parserOptions: {
         ecmaVersion: 2019,
