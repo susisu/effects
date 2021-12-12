@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  plugins: ["prettier", "jest", "jest-formatting"],
+  plugins: ["jest", "jest-formatting"],
   overrides: [
     {
       files: ["*.{ts,tsx}"],
@@ -56,7 +56,6 @@ module.exports = {
         node: true,
       },
       rules: {
-        "prettier/prettier": "error",
         "eslint-comments/no-unused-disable": "error",
       },
     },
