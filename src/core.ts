@@ -30,6 +30,7 @@ function isYeid<K extends EffKind>(obj: unknown, key: symbol): obj is Yield<K, u
   if (!obj || typeof obj !== "object") {
     return false;
   }
+  // eslint-disable-next-line @susisu/safe-typescript/no-type-assertion
   const o = obj as Readonly<{ key?: unknown }>;
   return o.key === key;
 }
@@ -42,7 +43,7 @@ function runEff_<K extends EffKind, T, U>(
 ): U {
   const [loop, resume, fork] = [
     (): U => {
-      const key = Symbol();
+      const key = Symbol("yield");
       try {
         let i: number = 0;
         const perform = <A>(eff: Eff<K, A> | Action<K, A>): A => {
@@ -50,6 +51,7 @@ function runEff_<K extends EffKind, T, U>(
             return eff(perform);
           }
           if (i < vals.length) {
+            // eslint-disable-next-line @susisu/safe-typescript/no-type-assertion
             const val = vals[i] as A;
             i += 1;
             return val;
@@ -59,11 +61,13 @@ function runEff_<K extends EffKind, T, U>(
           throw y;
         };
         return ret(action(perform));
-      } catch (err: unknown) {
+      } catch (err) {
         if (!isYeid<K>(err, key)) {
+          // eslint-disable-next-line @typescript-eslint/no-throw-literal
           throw err;
         }
         const eff = err.eff;
+        // eslint-disable-next-line @susisu/safe-typescript/no-type-assertion
         return handlers[eff.kind as K](eff, resume, fork);
       }
     },

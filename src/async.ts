@@ -18,7 +18,9 @@ export const waitFor = <A>(promise: Promise<A>): Eff<"async/waitFor", A> => ({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createAsyncHandlers = (reject: (err: any) => void): Handlers<AsyncEffKind, void> => ({
-  "async/waitFor": (eff, resume) => eff.promise.then(resume, reject),
+  "async/waitFor": (eff, resume) => {
+    eff.promise.then(resume, reject);
+  },
 });
 
 /**
